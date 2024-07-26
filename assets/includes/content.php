@@ -73,6 +73,9 @@ function getFolders($dir)
         }
     }
 
+    // Ordenar as pastas em ordem alfabética
+    natsort($directories);
+
     return $directories;
 }
 
@@ -87,6 +90,9 @@ function getVideos($diretorio)
     }
 
     $videoFiles = array_merge($mp4Files, $mkvFiles);
+    
+    // Ordenar as pastas em ordem alfabética
+    natsort($directories);
 
     return $videoFiles;
 }
@@ -102,6 +108,9 @@ function getImages($diretorio)
         }
     }
 
+    // Ordenar as pastas em ordem alfabética
+    natsort($directories);
+
     return $arquivos;
 }
 
@@ -115,6 +124,9 @@ function getPDFs($diretorio)
     }
 
     $pdfFiles = array_merge($pdfFiles);
+
+    // Ordenar as pastas em ordem alfabética
+    natsort($directories);
 
     return $pdfFiles;
 }
