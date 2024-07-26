@@ -31,6 +31,11 @@ include("assets/includes/head.php");
     ?>
 
     <?php
+    $filesAudio = getAudios($nomePasta);
+    cardAudios($filesAudio, $nomePasta);
+    ?>
+
+    <?php
     $filesVideo = getVideos($nomePasta);
     cardVideos($filesVideo, $nomePasta);
     ?>

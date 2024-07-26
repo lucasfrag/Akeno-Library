@@ -131,6 +131,23 @@ function getPDFs($diretorio)
     return $pdfFiles;
 }
 
+function getAudios($diretorio)
+{
+    $directory = rtrim("./files/" . $diretorio . "/", '/') . '/';
+    $mp3Files = glob($directory . '*.mp3');
+
+    if (empty($mp3Files)) {
+        return [];
+    }
+
+    $mp3Files = array_merge($mp3Files);
+
+    // Ordenar as pastas em ordem alfabética
+    natsort($mp3Files);
+
+    return $mp3Files;
+}
+
 
 
 // FOLDERS
@@ -401,12 +418,103 @@ function montarVideosB($files, $nomePasta)
 
 
 
+// Audios
+function cardAudios($conteudo, $pastaRaiz)
+{
+    if (!empty($conteudo)) {
+        $lidos = calcReadFiles(getAudios($pastaRaiz));
+        $totalItens = sizeof($conteudo);
+
+
+
+        echo "   
+            <div class='col-12'>
+                <div class='card mb-4'>
+                    <div class='card-header pb-0'>
+                        <h4>Audios</h4>
+
+                        <div class='progress-wrapper'>
+                            <div class='progress-info'>
+                            <div class='progress-percentage text-end'>
+                                <span class='text-sm font-weight-bold'>" . $lidos . " / " . $totalItens . "</span>
+                            </div>
+                            </div>
+                            <div class='progress'>
+                            <div class='progress-bar bg-success' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width: ";
+        echo ($totalItens > 0) ? ($lidos / $totalItens) * 100 : 0;
+        echo "%;'></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='card-body px-0 pt-0 pb-2' style='max-height: 400px; overflow-y: auto;' >
+                        <div class='container-fluid' >
+                        
+                            
+            ";
+
+
+
+        montarAudios($conteudo, $pastaRaiz);
+
+        echo "
+                            
+                            
+                        </div>
+                    </div>
+                </div>  
+            </div>          
+            ";
+    }
+}
+
+function montarAudios($files, $nomePasta)
+{
+    if (!empty($files)) {
+        echo "<div class='card-body row '>";
+
+        $read_status_file = './files/read_status.txt';
+        verificarSeReadExiste();
+        $read_status = [];
+        if (file_exists($read_status_file)) {
+            $read_status = unserialize(file_get_contents($read_status_file));
+        }
+
+        foreach ($files as $index => $arquivo) {
+            $isRead = isset($read_status[$arquivo]) && $read_status[$arquivo];
+            echo "
+                <ul class='list-group d-flex flex-row flex-wrap col-lg-4 col-md-12'>  
+                    <li class='list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg me-2'>
+                        <div class='d-flex align-items-center'>
+                            <button onclick='toggleRead(\"" . urlencode($arquivo) . "\")' class='btn ". ($isRead ? 'btn-success' : 'btn-outline-default') ." btn-icon-only btn-rounded mb-0 me-3 btn-sm d-flex align-items-center justify-content-center'>
+                                <i class='ni ni-check-bold'></i>
+                            </button>
+                            <div class='d-flex flex-column'>
+                                
+                                    <h6 class='mb-1 text-dark text-sm limitar-texto-1-linha'>" . pathinfo($arquivo, PATHINFO_FILENAME) . "</h6>
+                                
+                                <span class='text-xs'>
+                                    <audio controls>
+                                        <source src='".$arquivo."' type='audio/mpeg'>
+                                    </audio>
+                                </span>    
+                            </div>
+                        </div>             
+                    </li>
+                </ul>
+                ";
+        }
+
+        echo "</div>";
+    }
+}
+
+
 // PDFs
 function cardPDFs($conteudo, $pastaRaiz)
 {
     if (!empty($conteudo)) {
-        $lidos = calcReadPdfs($pastaRaiz);
-        $totalLivros = sizeof($conteudo);
+        $lidos = calcReadFiles(getPDFs($pastaRaiz));
+        $totalItens = sizeof($conteudo);
 
 
 
@@ -419,12 +527,12 @@ function cardPDFs($conteudo, $pastaRaiz)
                         <div class='progress-wrapper'>
                             <div class='progress-info'>
                             <div class='progress-percentage text-end'>
-                                <span class='text-sm font-weight-bold'>" . $lidos . " / " . $totalLivros . "</span>
+                                <span class='text-sm font-weight-bold'>" . $lidos . " / " . $totalItens . "</span>
                             </div>
                             </div>
                             <div class='progress'>
                             <div class='progress-bar bg-success' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width: ";
-        echo ($totalLivros > 0) ? ($lidos / $totalLivros) * 100 : 0;
+        echo ($totalItens > 0) ? ($lidos / $totalItens) * 100 : 0;
         echo "%;'></div>
                             </div>
                         </div>
@@ -487,7 +595,7 @@ function montarPDFs($files, $nomePasta)
     }
 }
 
-function calcReadPdfs($dir)
+function calcReadFiles($arquivos)
 {
     
     $read_status_file = './files/read_status.txt'; // Arquivo que armazena o estado de leitura
@@ -499,7 +607,8 @@ function calcReadPdfs($dir)
         $read_status = unserialize(file_get_contents($read_status_file));
     }
 
-    $todosArquivos = getPDFs($dir);
+    //$todosArquivos = getPDFs($dir);
+    $todosArquivos = $arquivos;
 
     $itensLidos = 0;
 
