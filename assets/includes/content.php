@@ -92,7 +92,7 @@ function getVideos($diretorio)
     $videoFiles = array_merge($mp4Files, $mkvFiles);
     
     // Ordenar as pastas em ordem alfabética
-    natsort($directories);
+    natsort($videoFiles);
 
     return $videoFiles;
 }
@@ -126,7 +126,7 @@ function getPDFs($diretorio)
     $pdfFiles = array_merge($pdfFiles);
 
     // Ordenar as pastas em ordem alfabética
-    natsort($directories);
+    natsort($pdfFiles);
 
     return $pdfFiles;
 }
