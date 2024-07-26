@@ -331,7 +331,7 @@ function cardVideos($conteudo, $pastaRaiz)
                             <div class='card-header pb-0'>
                                 <h4>Videos</h4><br>
                             </div>
-                            <div class='card-body px-0 pt-0 pb-2'>
+                            <div class='card-body px-0 pt-0 pb-2' style='max-height: 800px; overflow-y: auto;'>
                                 <div class='container-fluid'>
                                     <div class='row'>
             ";
@@ -561,7 +561,7 @@ function cardPDFs($conteudo, $pastaRaiz)
 function montarPDFs($files, $nomePasta)
 {
     if (!empty($files)) {
-        echo "<div class='card-body row '>";
+        echo "<div class='card-body row ' style='max-height: 280px; overflow-y: auto;'>";
 
         $read_status_file = './files/read_status.txt';
         verificarSeReadExiste();
