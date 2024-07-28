@@ -99,19 +99,24 @@ function getVideos($diretorio)
 
 function getImages($diretorio)
 {
-    $arquivos = array();
+    $directory = rtrim("./files/" . $diretorio . "/", '/') . '/';
+    $jpgFiles = glob($directory . '*.jpg');
+    $jpegFiles = glob($directory . '*.jpeg');
+    $pngFiles = glob($directory . '*.png');
+    $webpFiles = glob($directory . '*.webp');
+    $gifFiles = glob($directory . '*.gif');
 
-    $it = new RecursiveDirectoryIterator($diretorio);
-    foreach (new RecursiveIteratorIterator($it) as $arquivo) {
-        if (strtolower(pathinfo($arquivo, PATHINFO_EXTENSION)) == 'jpg' || strtolower(pathinfo($arquivo, PATHINFO_EXTENSION)) == 'jpeg' || strtolower(pathinfo($arquivo, PATHINFO_EXTENSION)) == 'png' || strtolower(pathinfo($arquivo, PATHINFO_EXTENSION)) == 'gif' || strtolower(pathinfo($arquivo, PATHINFO_EXTENSION)) == 'webp') {
-            $arquivos[] = $arquivo->getPathname();
-        }
+    if (empty($jpgFiles) && empty($jpegFiles) && empty($pngFiles) && empty($webpFiles) && empty($gifFiles)) {
+        return [];
     }
 
+    $imageFiles = array_merge($jpgFiles, $jpegFiles, $pngFiles, $webpFiles, $gifFiles);
+    
     // Ordenar as pastas em ordem alfabética
-    natsort($directories);
+    natsort($imageFiles);
 
-    return $arquivos;
+    return $imageFiles;
+
 }
 
 function getPDFs($diretorio)
@@ -505,6 +510,53 @@ function montarAudios($files, $nomePasta)
         }
 
         echo "</div>";
+    }
+}
+
+function cardImages($conteudo, $pastaRaiz)
+{
+    if (!empty($conteudo)) {
+        echo "
+                <div class='row'>
+                    <div class='col-12'>
+                        <div class='card mb-4'>
+                            <div class='card-header pb-0'>
+                                <h4>Images</h4><br>
+                            </div>
+                            <div class='card-body px-0 pt-0 pb-2' style='max-height: 800px; overflow-y: auto;'>
+                                <div class='container-fluid'>
+                                    <div class='row'>
+                                        <div class='grid'>
+            ";
+
+
+
+        montarImages($conteudo, $pastaRaiz);
+
+        echo "
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>            
+            ";
+    }
+}
+
+function montarImages($files, $nomePasta)
+{
+    if (!empty($files)) {
+        foreach ($files as $index => $arquivo) {
+            echo "
+                    <div class='grid-item'>
+                        <a data-toggle='modal' >
+                            <a href='". $arquivo ."'><img class='zoom-effect' width='100%' src='".$arquivo ."'></a>
+                        </a>
+                    </div>
+                ";
+        }
     }
 }
 

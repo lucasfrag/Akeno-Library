@@ -40,6 +40,11 @@ include("assets/includes/head.php");
     cardVideos($filesVideo, $nomePasta);
     ?>
 
+    <?php
+    $filesImage = getImages($nomePasta);
+    cardImages($filesImage, $nomePasta);
+    ?>    
+
   </div>
 </div>
 
