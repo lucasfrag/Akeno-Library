@@ -359,26 +359,45 @@ function cardVideos($conteudo, $pastaRaiz)
 function montarVideosA($files, $nomePasta)
 {
     if (!empty($files)) {
+
+        $read_status_file = './files/read_status.txt';
+        verificarSeReadExiste();
+        $read_status = [];
+        if (file_exists($read_status_file)) {
+            $read_status = unserialize(file_get_contents($read_status_file));
+        }
+
         foreach ($files as $index => $arquivo) {
+            $isRead = isset($read_status[$arquivo]) && $read_status[$arquivo];
             echo "
                     <div class='col-sm-6 col-md-4 col-lg-3'>
                         <div class='video-container'>
                             <div class='video' style='width: 100%;'>
-                                <a href='video_player.php?library={$nomePasta}&video={$arquivo}'>
+                                
                                     <video 
                                         id='my-video' 
                                         preload='metadata' 
                                         muted
                                         class='video-js' 
                                         data-setup='{ \"fluid\": true }' 
-                                        onmouseenter='this.currentTime += this.duration / 10; this.play();' 
+                                        onclick='this.currentTime += this.duration / 10; this.play();' 
                                         onmouseout='this.pause();'>
                                         <source src='{$arquivo}' type='video/mp4'>
                                         Seu navegador não suporta o elemento de vídeo.
                                     </video>
-                                    <div class='video-info' style='margin-top: 5px'>
-                                        <h6 class='video-title text-ellipsis'>" . pathinfo($arquivo, PATHINFO_FILENAME) . "</h6>
+                                    <div class='' style='margin-top: 5px; margin-bottom: 15px'>
+
+                                        <div class='d-flex align-items-center'>
+                                            <button onclick='toggleRead(\"" . urlencode($arquivo) . "\")' class='btn ". ($isRead ? 'btn-success' : 'btn-outline-default') ." btn-icon-only btn-rounded mb-0 me-3 btn-sm d-flex align-items-center justify-content-center'>
+                                                <i class='ni ni-check-bold text-sm'></i>
+                                            </button>
+                                            <div class='d-flex flex-column'>
+                                            <a href='video_player.php?library={$nomePasta}&video={$arquivo}'>
+                                                    <h6 class='mb-1 text-dark text-md limitar-texto-1-linha'>" . pathinfo($arquivo, PATHINFO_FILENAME) . "</h6>
+                                            </div>
+                                        </div>  
                                 </a>
+                                
                                 </div>
                             </div>
                         </div>
