@@ -414,7 +414,7 @@ function montarVideosB($files, $nomePasta)
         foreach ($files as $index => $arquivo) {
             $output .= "
                     <div class='col-12'>
-                        <div class='video-container'>
+                        <div class='video-container' style='margin-bottom: 10px;'>
                             <div class='video' style='width: 100%;'>
                                 <a href='video_player.php?library={$nomePasta}&video={$arquivo}'>
                                     <video 
@@ -433,6 +433,7 @@ function montarVideosB($files, $nomePasta)
                             </div>
                         </div>
                     </div>
+                    
                 ";
         }
         return $output;

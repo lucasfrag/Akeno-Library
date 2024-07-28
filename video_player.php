@@ -74,6 +74,7 @@ include("assets/includes/head.php");
 </html>
 
 <script>
+  const files = <?php echo json_encode($filesVideo); ?>;
   const player = videojs(document.getElementById("myPlayer"), { 
     plugins: {
         hotkeys: {
@@ -84,4 +85,18 @@ include("assets/includes/head.php");
         },
     },
   });
+   
+  function playRandomVideo() {
+      const index = getRandomInt(<?php echo json_encode(sizeof($filesVideo)); ?>);
+      player.src({
+          src: files[index],
+          type: 'video/mp4'
+      });
+      player.play();                        
+  }
+
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+
 </script>
