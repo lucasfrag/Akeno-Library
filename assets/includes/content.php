@@ -572,7 +572,7 @@ function montarImages($files, $nomePasta)
             echo "
                     <div class='grid-item'>
                         <a data-toggle='modal' >
-                            <a href='". $arquivo ."'><img class='zoom-effect' width='100%' src='".$arquivo ."'></a>
+                            <a href='". $arquivo ."'><img class='' width='100%' src='".$arquivo ."'></a>
                         </a>
                     </div>
                 ";
@@ -591,11 +591,11 @@ function cardPDFs($conteudo, $pastaRaiz)
 
 
         echo "   
-            <div class='col-sm-12 col-md-8'>
+            <div class='col-sm-12 col-md-12 col-lg-8'>
                 <div class='card mb-4'>
                     <div class='card-header pb-0'>
                         <h4>PDFs</h4>
-
+                        
                         <div class='progress-wrapper'>
                             <div class='progress-info'>
                             <div class='progress-percentage text-end'>
@@ -633,7 +633,7 @@ function cardPDFs($conteudo, $pastaRaiz)
 function montarPDFs($files, $nomePasta)
 {
     if (!empty($files)) {
-        echo "<div class='card-body row ' style='max-height: 280px; overflow-y: auto;'>";
+        echo "<div class='card-body row ' style='max-height: 600px; overflow-y: auto;'>";
 
         $read_status_file = './files/read_status.txt';
         verificarSeReadExiste();

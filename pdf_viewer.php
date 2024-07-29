@@ -225,12 +225,13 @@ body {
       });
 
       document.getElementById('book-container').addEventListener('click', function(e) {
-        const containerWidth = this.clientWidth;
-        if (e.clientX < containerWidth / 2) {
-          onPrevPage();
-        } else {
-          onNextPage();
-        }
+            const containerWidth = this.clientWidth;
+            const margin = 300; // Definindo uma margem para as áreas clicáveis nas bordas
+            if (e.clientX < margin) {
+                onPrevPage();
+            } else if (e.clientX > containerWidth - margin) {
+                onNextPage();
+            }
       });
 
       // Event listeners para as setas do teclado
