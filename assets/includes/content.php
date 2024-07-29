@@ -243,7 +243,7 @@ function montarPastasB($conteudo, $pastaRaiz)
                         </div>
                     </a>
                     <div class='card-body blur justify-content-center text-center  border-radius-md'>
-                        <h6 class='mb-0'>$conteudo->nomePasta</h6>
+                        <h6 class='mb-0 limitar-texto'>$conteudo->nomePasta</h6>
                         
                         <div class='row justify-content-center text-center'>
                             <div class='col-12 mx-auto'>
